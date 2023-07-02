@@ -2,6 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
+    restart: always
     ports:
       - 3030:3030
       - 5555:5555
