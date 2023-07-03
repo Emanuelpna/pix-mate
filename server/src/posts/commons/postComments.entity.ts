@@ -6,9 +6,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 
 import { User } from 'src/users/commons/user.entity';
+import { Post } from './post.entity';
 
 @Entity()
 export class PostComment {
@@ -18,13 +20,12 @@ export class PostComment {
   @Column({ type: 'varchar', length: 520, nullable: false })
   description: string;
 
-  @ManyToMany(() => User)
+  @ManyToOne(() => Post, (post) => post.replys)
+  replyTo!: Post;
+
+  @ManyToOne(() => User, (user) => user.comments)
   @JoinTable()
   owner!: User;
-
-  @ManyToMany(() => User)
-  @JoinTable()
-  replys!: PostComment[];
 
   @ManyToMany(() => User)
   @JoinTable()

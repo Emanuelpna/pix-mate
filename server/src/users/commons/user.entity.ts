@@ -1,4 +1,3 @@
-import { Post } from 'src/posts/commons/post.entity';
 import {
   Entity,
   Unique,
@@ -8,6 +7,9 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
+
+import { Post } from 'src/posts/commons/post.entity';
+import { PostComment } from 'src/posts/commons/postComments.entity';
 
 @Entity()
 @Unique(['name', 'username', 'email'])
@@ -32,6 +34,9 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.owner)
   feed: Post[];
+
+  @OneToMany(() => PostComment, (post) => post.owner)
+  comments: PostComment[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

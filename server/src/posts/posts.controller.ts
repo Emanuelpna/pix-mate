@@ -34,6 +34,7 @@ export class PostsController {
       relations: {
         owner: true,
         likes: true,
+        replys: true,
       },
     });
   }
@@ -64,31 +65,5 @@ export class PostsController {
       endpoint: newPost.endpoint,
       description: newPost.description,
     });
-  }
-
-  @Post(':postId/like/:userId')
-  public async likePost(@Param() params: { postId: string; userId: string }) {
-    const post = await this.feedPostRepository.findOne({
-      where: {
-        id: Number(params.postId),
-      },
-      relations: {
-        likes: true,
-      },
-    });
-
-    const userId = Number(params.userId);
-
-    const user = await this.userRepository.findOneBy({
-      id: userId,
-    });
-
-    if (post.likes.findIndex((like) => like.id === userId) >= 0) {
-      post.likes.filter((like) => like.id === userId);
-    } else {
-      post.likes.push(user);
-    }
-
-    this.feedPostRepository.save(post);
   }
 }

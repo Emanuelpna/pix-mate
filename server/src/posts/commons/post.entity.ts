@@ -8,9 +8,11 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 import { User } from 'src/users/commons/user.entity';
+import { PostComment } from './postComments.entity';
 
 @Entity()
 @Unique(['endpoint'])
@@ -26,6 +28,9 @@ export class Post {
 
   @ManyToOne(() => User, (user) => user.feed)
   owner!: User;
+
+  @OneToMany(() => PostComment, (post) => post.replyTo)
+  replys: PostComment[];
 
   @ManyToMany(() => User)
   @JoinTable()
