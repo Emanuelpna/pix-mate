@@ -2,12 +2,16 @@ import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
+import { PhotosModule } from './photos/photos.module';
+
+const ASSETS_FOLDER = process.env.PUBLIC_ASSETS_FOLDER ?? '/public/assets';
 
 @Module({
   imports: [
@@ -22,8 +26,13 @@ import { UsersModule } from './users/users.module';
       synchronize: process.env.NODE_ENV === 'development',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', ASSETS_FOLDER),
+      serveRoot: ASSETS_FOLDER,
+    }),
     UsersModule,
     PostsModule,
+    PhotosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
