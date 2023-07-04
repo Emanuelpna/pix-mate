@@ -1,0 +1,25 @@
+.wrapper {
+  --columnPadding: 18px;
+
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  width: 100%;
+  height: 100vh;
+}
+
+.feedContainer {
+  overflow: auto;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 28px;
+  padding: var(--columnPadding);
+}
+
+.commentsSidePanel {
+  padding: var(--columnPadding);
+}
